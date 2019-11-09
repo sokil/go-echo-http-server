@@ -3,5 +3,5 @@
 Simple HTTP server for test purposes
 
 * `make run-http` - run server
-* `make run-siege` - rend concurent requests to server
-* `make run-profiler-web` - start profiling server and show results on web browser
+* `make run-siege` - send concurent requests to server
+* `make run-profiler-web` - start profiling server and show results in web browser
