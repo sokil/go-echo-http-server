@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
+	"runtime"
 	"time"
 )
 
@@ -25,10 +27,13 @@ func main() {
 
 	// start profiler
 	go func() {
+		// enable block profiling
+		runtime.SetBlockProfileRate(1)
+
 		profilerHTTPAddress := fmt.Sprintf("localhost:%d", (*profilerHTTPort))
 
 		log.Println("Profiler started at address " + profilerHTTPAddress)
-		log.Println("Open 'http://" + profilerHTTPAddress + "/debug/pprof/' in you browser or use 'go tool pprof http://" + profilerHTTPAddress + "/debug/pprof/heap' from console")
+		log.Println("Open 'http://" + profilerHTTPAddress + "/debug/pprof/' in you browser or use 'go tool pprof http://" + profilerHTTPAddress + "/debug/pprof/profile' from console")
 		log.Println("See details about pprof in https://golang.org/pkg/net/http/pprof/")
 		log.Println(http.ListenAndServe(profilerHTTPAddress, nil))
 	}()
