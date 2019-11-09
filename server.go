@@ -8,6 +8,7 @@ import (
 	_ "net/http/pprof"
 	"os"
 	"runtime"
+	"runtime/debug"
 	"time"
 )
 
@@ -21,9 +22,13 @@ func (h *httpRequestHandler) ServeHTTP(responseWriter http.ResponseWriter, reque
 func main() {
 	var httpPort = flag.Int("http-port", 8080, "HTTP Port")
 	var profilerHTTPort = flag.Int("profiler-http-port", 6060, "Start profiler localhost")
+	var gcPercent = flag.Int("gc-percent", 100, "A garbage collection is triggered when the ratio of freshly allocated data to live data remaining after the previous collection reaches this percentage")
 
 	// get flags
 	flag.Parse()
+
+	// tune GC
+	debug.SetGCPercent(*gcPercent)
 
 	// start profiler
 	go func() {
